@@ -75,16 +75,7 @@ class Auction:
                     team.SelectedplayersList.update({player:base_price})
                     print(f'{player} sold')
                     team.amount-=base_price
-                   
-            #       Player_selected_by_team.update({team:True})  
-            # check=False
-            # for soldlist in Player_selected_by_team:
-            #     if Player_selected_by_team.get(soldlist)==True:
-            #         soldlist.SelectedplayersList.update({player:base_price})
-            #         print("player sold to->"+soldlist.name)
-            #         check=True
-            # if check==False:
-            #     print(player+' not sold')
+                
                     
 ob=Auction()
 ob.bidding()
