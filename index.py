@@ -34,37 +34,57 @@ class Auction:
     def bidding(self):      
         for player in Auction.PlayerList:
             print(player+"-> "+str(Auction.PlayerList.get(player)))
+            #key as a team name and value is boolean
             Player_selected_by_team={
                 'SuperKings':False,
                 'Titans':False,
                 'Kings':False
-                }#key as a team name and value is boolean
+                }
             bidding_amount=0
             base_price=Auction.PlayerList[player]
+            last_team_bid=""
+            passCount=0
+            while passCount<2:
+                passCount=0
+                for team in self.teamList:
+                    
+                    print(team.name+" "+"reamining balance  "+str(team.amount))
+                    inputPrice=(input('Enter your amount: '))
+                
+                                
+                    if inputPrice=="pass":
+                        passCount+=1
+                        continue                
+                    bidding_amount=int(inputPrice)  
+                    if bidding_amount>team.amount:
+                        print('dont have sufficient amount')  
+                        passCount+=1
+                        continue
+                                
+                    else:
+                        #team.amount-=bidding_amount
+                        base_price+=bidding_amount
+                        last_team_bid=team.name
+                        #passCount=0
+                        print(player+" new Price->"+str(base_price))   
+            if passCount==3:
+                print(f'{player}not sold')
+
             for team in self.teamList:
-                print(team.name+" ")
-                inputPrice=(input('Enter your amount: '))
-               
-                            
-                if inputPrice=="pass":
-                    continue                
-                bidding_amount=int(inputPrice)  
-                if bidding_amount>team.amount:
-                    print('dont have sufficient amount')  
-                    continue
-                             
-                else:
-                    team.amount-=bidding_amount
-                    base_price+=bidding_amount
-                    Player_selected_by_team.update({team:True})  
-            check=False
-            for soldlist in Player_selected_by_team:
-                if Player_selected_by_team.get(soldlist)==True:
-                    soldlist.SelectedplayersList.update({player:base_price})
-                    print("player sold to"+soldlist.name)
-                    check=True
-            if check==False:
-                print(player+' not sold')
+                if team.name==last_team_bid:
+                    team.SelectedplayersList.update({player:base_price})
+                    print(f'{player} sold')
+                    team.amount-=base_price
+                   
+            #       Player_selected_by_team.update({team:True})  
+            # check=False
+            # for soldlist in Player_selected_by_team:
+            #     if Player_selected_by_team.get(soldlist)==True:
+            #         soldlist.SelectedplayersList.update({player:base_price})
+            #         print("player sold to->"+soldlist.name)
+            #         check=True
+            # if check==False:
+            #     print(player+' not sold')
                     
 ob=Auction()
 ob.bidding()
@@ -76,12 +96,7 @@ ob.printSelectedPlayers()
             
 
            
-             
-
-    
-
-ob=Auction()
-ob.bidding()        
+                
 
 
 
